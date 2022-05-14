@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Routes, Route, Link, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 
 function App() {
@@ -9,23 +9,29 @@ function App() {
       <nav>
         <ul>
           <li>
-            Home
+            <Link to="/">Home</Link>
           </li>
           <li>
-            Movies
+            <Link to="/movies">Movies</Link>
           </li>
           <li>
-            Color Game
+            <Link to="/color-game">Color Game</Link>
           </li>
           <li>
-            Add Movies
+            <Link to="/add-movie">Add Movies</Link>
           </li>
         </ul>
       </nav>
 
-      <MovieList />
-      <AddMovie />
-      <AddColor />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/movies" element={<MovieList />} />
+        <Route path="/movies/:id" element={<MovieDetails />} />
+        <Route path="/color-game" element={<AddColor />} />
+        <Route path="/add-movie" element={<AddMovie />} />
+
+      </Routes>   
+          
       
     </div>
     
@@ -33,6 +39,21 @@ function App() {
 }
 
 export default App;
+
+function Home(){
+  return <h1>Welcome to the Movie App 😊 🍿 </h1>
+}
+
+function MovieDetails(){
+  
+  const {id} = useParams();
+
+  return(
+    <div>
+      <h1>Movie details page {id}</h1>
+    </div>
+  )
+}
 
 function MovieList(){
   const movieList = [
@@ -106,6 +127,8 @@ function Movie({ moviePoster, movieName, movieRating, movieSummary, id}){
     display: show ? "block" : "none",
   }
 
+  const navigate = useNavigate();
+
   return(
     <div className="movie-container">
       <img className="movie-poster" src={moviePoster} alt={movieName} />
@@ -113,6 +136,8 @@ function Movie({ moviePoster, movieName, movieRating, movieSummary, id}){
         <h3 className="movie-name">{movieName}</h3>
         <p style={styles} >⭐ {movieRating}</p>
       </div>
+
+      <button onClick={() => navigate(`/movies/${id}`)}>Info</button>
 
       <button onClick={() => setShow(!show)}>Toggle Summary</button>
       {/* <p style={paraStyles} className="movie-summary">{movieSummary}</p> */}
