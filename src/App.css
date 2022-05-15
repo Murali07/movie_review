@@ -64,3 +64,6 @@ input[type=text]{
   box-sizing: border-box;
   border-radius: 5px;
 }
+.movie-details-container{
+  width: 700px;
+}
