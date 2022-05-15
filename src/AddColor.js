@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { ColorBox } from './ColorBox';
+import Button from '@mui/material/Button';
+
 
 export function AddColor() {
   const [color, setColor] = useState("purple");
@@ -25,9 +27,11 @@ export function AddColor() {
 
         {/* setColorList - Informs React colorList is changed - re-render */}
         {/* copy the colorList and then add newColor to it */}
-        <button onClick={() => setColorList([...colorList, color])}>
+        {/* <button onClick={() => setColorList([...colorList, color])}>
           Add Color
-        </button>
+        </button> */}
+
+        <Button onClick={() => setColorList([...colorList, color])} variant="contained">Add Color</Button>
       </div>
 
       {colorList.map((clr) => (

@@ -3,6 +3,16 @@ import { Routes, Route, Link, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { Navigate } from 'react-router-dom';
 import { AddColor } from './AddColor';
+import InfoIcon from '@mui/icons-material/Info';
+import IconButton from '@mui/material/IconButton';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { Counter } from './Counter';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import TextField from '@mui/material/TextField';
 
 const INITIAL_MOVIE_LIST = [
   {
@@ -65,10 +75,13 @@ const INITIAL_MOVIE_LIST = [
 
 
 function App() {
+
+  const navigate = useNavigate();
+
   return (
     <div className="App">
 
-      <nav>
+      {/* <nav>
         <ul>
           <li>
             <Link to="/">Home</Link>
@@ -86,7 +99,16 @@ function App() {
             <Link to="/refsdfsasf">Random</Link>
           </li>
         </ul>
-      </nav>
+      </nav> */}
+
+      <AppBar position="static">
+        <Toolbar>                   
+          <Button onClick={() => navigate(`/`)} color="inherit">Home</Button>
+          <Button onClick={() => navigate(`/movies`)} color="inherit">Movies</Button>
+          <Button onClick={() => navigate(`/add-movie`)} color="inherit">Add Movies</Button>
+          <Button onClick={() => navigate(`/color-game`)} color="inherit">Color Game</Button>
+        </Toolbar>
+      </AppBar>
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -110,7 +132,7 @@ function App() {
 export default App;
 
 function Home(){
-  return <h1>Welcome to the Movie app 😊🎇🎇✨🎉🎉</h1>
+  return <h1 className="home">Welcome to the Movie App 😊🎇🎇✨🎉🎉</h1>
 }
 
 function NotFound(){
@@ -161,9 +183,10 @@ function MovieDetails(){
       </div>
 
       <p className="movie-summary">{movie.movie_summary}</p>
-      <button onClick={() => navigate(-1)}>Back</button>
 
-      
+      <Button onClick={() => navigate(-1)} variant="contained"><ArrowBackIosIcon></ArrowBackIosIcon>Back</Button>
+
+            
     </div> 
   )
 }
@@ -198,49 +221,49 @@ function Movie({ moviePoster, movieName, movieRating, movieSummary, id}){
     <div className="movie-container">
       <img className="movie-poster" src={moviePoster} alt={movieName} />
       <div className="movie-specs">
-        <h3 className="movie-name">{movieName}</h3>
+        <h3 className="movie-name">{movieName} 
+        <IconButton onClick={() => navigate(`/movies/${id}`)} color="primary">        
+          <InfoIcon></InfoIcon>
+        </IconButton>       
+        {show ? <ExpandLessIcon onClick={() => setShow(!show)} color="primary"></ExpandLessIcon> : <ExpandMoreIcon onClick={() => setShow(!show)} color="primary"></ExpandMoreIcon>}
+        </h3>
+        
         <p style={styles} >⭐ {movieRating}</p>
       </div>
 
-      <button onClick={() => navigate(`/movies/${id}`)}>Info</button>
+      
 
-      <button onClick={() => setShow(!show)}>Toggle Summary</button>
+      {/* <button onClick={() => navigate(`/movies/${id}`)}>Info</button> */}      
+
+      {/* <button onClick={() => setShow(!show)}>Toggle Summary</button> */}
       {/* <p style={paraStyles} className="movie-summary">{movieSummary}</p> */}
 
       {/* conditional redering */}
       {show ? <p className="movie-summary">{movieSummary}</p> : ""}
-
+    
       <Counter />
     </div> 
   )
 
 }
 
-function Counter() {
-  const [like, setLike] = useState(0);
-  const [dislike, setDisLike] = useState(0);
-  return (
-    <div>
-      <button className="btn-like" onClick={() => setLike(like + 1)}>
-        👍 {like}
-      </button>
-      <button className="btn-dislike" onClick={() => setDisLike(dislike + 1)}>
-        👎 {dislike}
-      </button>
-    </div>
-  );
-}
-
 function AddMovie(){
 
   return (
     <div className="add-movie">
-      <input type="text" placeholder="Name"></input>
+      {/* <input type="text" placeholder="Name"></input>
       <input type="text" placeholder="Poster"></input>
       <input type="text" placeholder="Rating"></input>
-      <input type="text" placeholder="Summary"></input>
+      <input type="text" placeholder="Summary"></input> */}
 
-      <button className="add">Add Movie</button>
+      <TextField id="filled-basic" label="Name" variant="filled" />
+      <TextField id="filled-basic" label="Poster" variant="filled" />
+      <TextField id="filled-basic" label="Rating" variant="filled" />
+      <TextField id="filled-basic" label="Summary" variant="filled" />
+      <TextField id="filled-basic" label="Trailer" variant="filled" />
+
+      {/* <button className="add">Add Movie</button> */}
+      <Button color="success" variant="contained">Add Movie</Button>
 
       {/* <button>
         onClick={() => {
