@@ -78,6 +78,8 @@ function App() {
 
   const navigate = useNavigate();
 
+  const [movieList, setMovieList] = useState(INITIAL_MOVIE_LIST);
+
   return (
     <div className="App">
 
@@ -115,9 +117,9 @@ function App() {
         <Route path="/movies" element={<MovieList />} />
         <Route path="/films" element={<Navigate replace to="/movies" />} />
         {/* : makes the path matching dynamic */}
-        <Route path="/movies/:id" element={<MovieDetails />} />
+        <Route path="/movies/:id" element={<MovieDetails movieList={movieList} />} />
         <Route path="/color-game" element={<AddColor />} />
-        <Route path="/add-movie" element={<AddMovie />} />
+        <Route path="/add-movie" element={<AddMovie movieList={movieList} setMovieList={setMovieList}/>} />
         <Route path="/404" element={<NotFound />} />
         <Route path="*" element={<Navigate replace to="/404" />} />
 
@@ -222,10 +224,23 @@ function Movie({ moviePoster, movieName, movieRating, movieSummary, id}){
       <img className="movie-poster" src={moviePoster} alt={movieName} />
       <div className="movie-specs">
         <h3 className="movie-name">{movieName} 
-        <IconButton onClick={() => navigate(`/movies/${id}`)} color="primary">        
+        <IconButton 
+          onClick={() => navigate(`/movies/${id}`)} 
+          color="primary"
+          aria-label="Movie Details"
+        >        
           <InfoIcon></InfoIcon>
-        </IconButton>       
-        {show ? <ExpandLessIcon onClick={() => setShow(!show)} color="primary"></ExpandLessIcon> : <ExpandMoreIcon onClick={() => setShow(!show)} color="primary"></ExpandMoreIcon>}
+        </IconButton> 
+        <IconButton 
+          onClick={() => setShow(!show)} 
+          color="primary" 
+          aria-label="Toggle Summary"
+        >
+
+        {show ? <ExpandLessIcon ></ExpandLessIcon> : <ExpandMoreIcon></ExpandMoreIcon>}
+          
+        </IconButton>      
+        
         </h3>
         
         <p style={styles} >⭐ {movieRating}</p>
@@ -247,7 +262,27 @@ function Movie({ moviePoster, movieName, movieRating, movieSummary, id}){
 
 }
 
-function AddMovie(){
+function AddMovie(movieList, setMovieList){
+
+  const [name, setName] = useState("");
+  const [poster, setPoster] = useState("");
+  const [summary, setSummary] = useState("");
+  const [rating, setRating] = useState("");
+  const [trailer, setTrailer] = useState("");
+
+  const addMovie = () => {
+    const newMovie = {
+      name: name,
+      rating: rating,
+      summary: summary,
+      poster: poster,
+      trailer: trailer,
+    };
+
+    console.log(newMovie);
+
+    setMovieList([...movieList, new Movie]);
+  }
 
   return (
     <div className="add-movie">
@@ -256,26 +291,40 @@ function AddMovie(){
       <input type="text" placeholder="Rating"></input>
       <input type="text" placeholder="Summary"></input> */}
 
-      <TextField id="filled-basic" label="Name" variant="filled" />
-      <TextField id="filled-basic" label="Poster" variant="filled" />
-      <TextField id="filled-basic" label="Rating" variant="filled" />
-      <TextField id="filled-basic" label="Summary" variant="filled" />
-      <TextField id="filled-basic" label="Trailer" variant="filled" />
+      <TextField 
+        onChange={(event) => setName(event.target.value)} 
+        id="filled-basic" 
+        label="Name" 
+        variant="filled" 
+      />
+      <TextField 
+        onChange={(event) => setPoster(event.target.value)}
+        id="filled-basic" 
+        label="Poster" 
+        variant="filled" 
+      />
+      <TextField 
+        onChange={(event) => setRating(event.target.value)}
+        id="filled-basic" 
+        label="Rating" 
+        variant="filled" 
+      />
+      <TextField 
+        onChange={(event) => setSummary(event.target.value)}
+        id="filled-basic" 
+        label="Summary" 
+        variant="filled" 
+      />
+      <TextField 
+        onChange={(event) => setTrailer(event.target.value)}
+        id="filled-basic" 
+        label="Trailer" 
+        variant="filled" 
+      />
 
       {/* <button className="add">Add Movie</button> */}
-      <Button color="success" variant="contained">Add Movie</Button>
-
-      {/* <button>
-        onClick={() => {
-          const newMovie = {
-            name: name,
-            rating: rating,
-            summary: summary,
-            poster: poster,
-            trailer: trailer,
-          };
-        }}
-      </button> */}
+      <Button color="secondary" variant="contained">Add Movie</Button>    
+            
 
       
     </div>
