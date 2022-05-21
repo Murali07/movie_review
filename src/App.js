@@ -276,19 +276,19 @@ function Movie({ moviePoster, movieName, movieRating, movieSummary, id}){
 
 function AddMovie({movieList, setMovieList}){
 
-  const [name, setName] = useState("");
-  const [poster, setPoster] = useState("");
-  const [summary, setSummary] = useState("");
-  const [rating, setRating] = useState("");
-  const [trailer, setTrailer] = useState("");
+  const [movie_name, setName] = useState("");
+  const [movie_poster, setPoster] = useState("");
+  const [movie_summary, setSummary] = useState("");
+  const [movie_rating, setRating] = useState("");
+  const [movie_trailer, setTrailer] = useState("");
 
   const addMovie = () => {
     const newMovie = {
-      name: name,
-      rating: rating,
-      summary: summary,
-      poster: poster,
-      trailer: trailer,
+      movie_name: movie_name,
+      movie_rating: movie_rating,
+      movie_summary: movie_summary,
+      movie_poster: movie_poster,
+      movie_trailer: movie_trailer,
     };
 
     console.log(newMovie);
@@ -335,7 +335,7 @@ function AddMovie({movieList, setMovieList}){
       />
 
       {/* <button className="add">Add Movie</button> */}
-      <Button color="secondary" variant="contained">Add Movie</Button>    
+      <Button onClick={addMovie} color="secondary" variant="contained">Add Movie</Button>    
             
 
       
