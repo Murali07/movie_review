@@ -18,6 +18,7 @@
 }
 .movie-container{
   width: 340px;
+  height: min-content;
 }
 .movie-list{
   display: grid;

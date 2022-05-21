@@ -13,6 +13,14 @@ import { Counter } from './Counter';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TextField from '@mui/material/TextField';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import HomeIcon from '@mui/icons-material/Home';
+import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
+import AddIcon from '@mui/icons-material/Add';
+import ColorLensIcon from '@mui/icons-material/ColorLens';
+
 
 const INITIAL_MOVIE_LIST = [
   {
@@ -105,16 +113,16 @@ function App() {
 
       <AppBar position="static">
         <Toolbar>                   
-          <Button onClick={() => navigate(`/`)} color="inherit">Home</Button>
-          <Button onClick={() => navigate(`/movies`)} color="inherit">Movies</Button>
-          <Button onClick={() => navigate(`/add-movie`)} color="inherit">Add Movies</Button>
-          <Button onClick={() => navigate(`/color-game`)} color="inherit">Color Game</Button>
+          <Button onClick={() => navigate(`/`)} color="inherit"><HomeIcon></HomeIcon>Home</Button>
+          <Button onClick={() => navigate(`/movies`)} color="inherit"><LocalMoviesIcon></LocalMoviesIcon>Movies</Button>
+          <Button onClick={() => navigate(`/add-movie`)} color="inherit"><AddIcon></AddIcon>Add Movies</Button>
+          <Button onClick={() => navigate(`/color-game`)} color="inherit"><ColorLensIcon></ColorLensIcon>Color Game</Button>
         </Toolbar>
       </AppBar>
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/movies" element={<MovieList />} />
+        <Route path="/movies" element={<MovieList movieList={movieList} setMovieList={setMovieList}/>} />
         <Route path="/films" element={<Navigate replace to="/movies" />} />
         {/* : makes the path matching dynamic */}
         <Route path="/movies/:id" element={<MovieDetails movieList={movieList} />} />
@@ -193,8 +201,8 @@ function MovieDetails(){
   )
 }
 
-function MovieList(){
-  const movieList = INITIAL_MOVIE_LIST;
+function MovieList({movieList, setMovieList}){
+  // const movieList = INITIAL_MOVIE_LIST;
 
   return(
     <div className="movie-list">
@@ -220,49 +228,53 @@ function Movie({ moviePoster, movieName, movieRating, movieSummary, id}){
   const navigate = useNavigate();
 
   return(
-    <div className="movie-container">
+    <Card className="movie-container">
       <img className="movie-poster" src={moviePoster} alt={movieName} />
-      <div className="movie-specs">
-        <h3 className="movie-name">{movieName} 
-        <IconButton 
-          onClick={() => navigate(`/movies/${id}`)} 
-          color="primary"
-          aria-label="Movie Details"
-        >        
-          <InfoIcon></InfoIcon>
-        </IconButton> 
-        <IconButton 
-          onClick={() => setShow(!show)} 
-          color="primary" 
-          aria-label="Toggle Summary"
-        >
+      <CardContent>      
+        <div className="movie-specs">
+          <h3 className="movie-name">{movieName} 
+          <IconButton 
+            onClick={() => navigate(`/movies/${id}`)} 
+            color="primary"
+            aria-label="Movie Details"
+          >        
+            <InfoIcon></InfoIcon>
+          </IconButton> 
+          <IconButton 
+            onClick={() => setShow(!show)} 
+            color="primary" 
+            aria-label="Toggle Summary"
+          >
 
-        {show ? <ExpandLessIcon ></ExpandLessIcon> : <ExpandMoreIcon></ExpandMoreIcon>}
+          {show ? <ExpandLessIcon ></ExpandLessIcon> : <ExpandMoreIcon></ExpandMoreIcon>}
+            
+          </IconButton>      
           
-        </IconButton>      
+          </h3>
+          
+          <p style={styles} >⭐ {movieRating}</p>
+        </div>
+
         
-        </h3>
-        
-        <p style={styles} >⭐ {movieRating}</p>
-      </div>
 
-      
+        {/* <button onClick={() => navigate(`/movies/${id}`)}>Info</button> */}      
 
-      {/* <button onClick={() => navigate(`/movies/${id}`)}>Info</button> */}      
+        {/* <button onClick={() => setShow(!show)}>Toggle Summary</button> */}
+        {/* <p style={paraStyles} className="movie-summary">{movieSummary}</p> */}
 
-      {/* <button onClick={() => setShow(!show)}>Toggle Summary</button> */}
-      {/* <p style={paraStyles} className="movie-summary">{movieSummary}</p> */}
-
-      {/* conditional redering */}
-      {show ? <p className="movie-summary">{movieSummary}</p> : ""}
-    
-      <Counter />
-    </div> 
+        {/* conditional redering */}
+        {show ? <p className="movie-summary">{movieSummary}</p> : ""}
+      </CardContent>
+      <CardActions>
+        <Counter />
+      </CardActions>
+     
+    </Card> 
   )
 
 }
 
-function AddMovie(movieList, setMovieList){
+function AddMovie({movieList, setMovieList}){
 
   const [name, setName] = useState("");
   const [poster, setPoster] = useState("");
@@ -281,7 +293,7 @@ function AddMovie(movieList, setMovieList){
 
     console.log(newMovie);
 
-    setMovieList([...movieList, new Movie]);
+    setMovieList([...movieList, newMovie]);
   }
 
   return (
