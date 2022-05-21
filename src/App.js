@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, Link, useNavigate, useParams } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Navigate } from 'react-router-dom';
 import { AddColor } from './AddColor';
@@ -8,11 +8,9 @@ import IconButton from '@mui/material/IconButton';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Counter } from './Counter';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
@@ -20,9 +18,12 @@ import HomeIcon from '@mui/icons-material/Home';
 import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 import AddIcon from '@mui/icons-material/Add';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
+import { AddMovie } from './AddMovie';
+import { MovieDetails } from './MovieDetails';
+import { MovieList } from './MovieList';
 
 
-const INITIAL_MOVIE_LIST = [
+export const INITIAL_MOVIE_LIST = [
   {
     movie_poster: "https://m.media-amazon.com/images/M/MV5BNmU1OTYzYzAtMDcyOS00MDI0LTg2ZmQtYTEyMDdmMmQ0MjY5XkEyXkFqcGdeQXVyOTk3NTc2MzE@._V1_.jpg",
     movie_name : "Master",
@@ -153,67 +154,7 @@ function NotFound(){
   )
 }
 
-function MovieDetails(){
-
-  const {id} = useParams();
-
-  const movie = INITIAL_MOVIE_LIST[id];
-
-  // console.log(movie);
-
-  // return(
-  //   <div>
-  //     <h1>Details of {movie.movie_name}</h1>
-  //   </div>
-  // )
-  
-   
-  const styles = {
-    color: movie.movie_rating > 8 ? "green" : "red",
-  }
-
-  const navigate = useNavigate();
-
-  return(
-    <div className="movie-details-container">
-
-      <iframe 
-        width="700" 
-        height="400" 
-        src={movie.movie_trailer} 
-        title="YouTube video player" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-      </iframe>
-
-      <div className="movie-specs">
-        <h3 className="movie-name">{movie.movie_name}</h3>
-        <p style={styles} >⭐ {movie.movie_rating}</p>
-      </div>
-
-      <p className="movie-summary">{movie.movie_summary}</p>
-
-      <Button onClick={() => navigate(-1)} variant="contained"><ArrowBackIosIcon></ArrowBackIosIcon>Back</Button>
-
-            
-    </div> 
-  )
-}
-
-function MovieList({movieList, setMovieList}){
-  // const movieList = INITIAL_MOVIE_LIST;
-
-  return(
-    <div className="movie-list">
-        {movieList.map((movie, index) => (
-          <Movie moviePoster = {movie.movie_poster} movieName = {movie.movie_name} movieRating = {movie.movie_rating} movieSummary = {movie.movie_summary} id = {index}/>
-        ))}
-    </div>
-  )
-}
-
-function Movie({ moviePoster, movieName, movieRating, movieSummary, id}){
+export function Movie({ moviePoster, movieName, movieRating, movieSummary, id}){
 
   const styles = {
     color: movieRating > 8 ? "green" : "red",
@@ -273,75 +214,5 @@ function Movie({ moviePoster, movieName, movieRating, movieSummary, id}){
   )
 
 }
-
-function AddMovie({movieList, setMovieList}){
-
-  const [movie_name, setName] = useState("");
-  const [movie_poster, setPoster] = useState("");
-  const [movie_summary, setSummary] = useState("");
-  const [movie_rating, setRating] = useState("");
-  const [movie_trailer, setTrailer] = useState("");
-
-  const addMovie = () => {
-    const newMovie = {
-      movie_name: movie_name,
-      movie_rating: movie_rating,
-      movie_summary: movie_summary,
-      movie_poster: movie_poster,
-      movie_trailer: movie_trailer,
-    };
-
-    console.log(newMovie);
-
-    setMovieList([...movieList, newMovie]);
-  }
-
-  return (
-    <div className="add-movie">
-      {/* <input type="text" placeholder="Name"></input>
-      <input type="text" placeholder="Poster"></input>
-      <input type="text" placeholder="Rating"></input>
-      <input type="text" placeholder="Summary"></input> */}
-
-      <TextField 
-        onChange={(event) => setName(event.target.value)} 
-        id="filled-basic" 
-        label="Name" 
-        variant="filled" 
-      />
-      <TextField 
-        onChange={(event) => setPoster(event.target.value)}
-        id="filled-basic" 
-        label="Poster" 
-        variant="filled" 
-      />
-      <TextField 
-        onChange={(event) => setRating(event.target.value)}
-        id="filled-basic" 
-        label="Rating" 
-        variant="filled" 
-      />
-      <TextField 
-        onChange={(event) => setSummary(event.target.value)}
-        id="filled-basic" 
-        label="Summary" 
-        variant="filled" 
-      />
-      <TextField 
-        onChange={(event) => setTrailer(event.target.value)}
-        id="filled-basic" 
-        label="Trailer" 
-        variant="filled" 
-      />
-
-      {/* <button className="add">Add Movie</button> */}
-      <Button onClick={addMovie} color="secondary" variant="contained">Add Movie</Button>    
-            
-
-      
-    </div>
-  )
-}
-
 
 
