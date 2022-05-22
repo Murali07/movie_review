@@ -21,10 +21,16 @@ import ColorLensIcon from '@mui/icons-material/ColorLens';
 import { AddMovie } from './AddMovie';
 import { MovieDetails } from './MovieDetails';
 import { MovieList } from './MovieList';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+
 
 
 export const INITIAL_MOVIE_LIST = [
   {
+    id: "100",
     movie_poster: "https://m.media-amazon.com/images/M/MV5BNmU1OTYzYzAtMDcyOS00MDI0LTg2ZmQtYTEyMDdmMmQ0MjY5XkEyXkFqcGdeQXVyOTk3NTc2MzE@._V1_.jpg",
     movie_name : "Master",
     movie_rating: "7.3",
@@ -32,6 +38,7 @@ export const INITIAL_MOVIE_LIST = [
     movie_trailer: "https://www.youtube.com/embed/UTiXQcrLlv4",
   },
   {
+    id: "101",
     movie_poster: "https://m.media-amazon.com/images/M/MV5BMjMwMDgyOGQtMWZjNC00MDUwLTllZDYtZWM3NDBmN2YzNGZmXkEyXkFqcGdeQXVyMTQzNjkzMzEw._V1_.jpg",
     movie_name : "K.G.F: Chapter 2",
     movie_rating: "8.9",
@@ -39,6 +46,7 @@ export const INITIAL_MOVIE_LIST = [
     movie_trailer: "https://www.youtube.com/embed/tLeTx5OdjZs",
   },
   {
+    id: "102",
     movie_poster: "https://m.media-amazon.com/images/M/MV5BY2Y5ZWMwZDgtZDQxYy00Mjk0LThhY2YtMmU1MTRmMjVhMjRiXkEyXkFqcGdeQXVyMTI1NDEyNTM5._V1_FMjpg_UX1000_.jpg",
     movie_name : "Jai Bhim",
     movie_rating: "8.8",
@@ -46,6 +54,7 @@ export const INITIAL_MOVIE_LIST = [
     movie_trailer: "https://www.youtube.com/embed/pVOd8HAQQZM",
   },
   {
+    id: "103",
     movie_poster: "https://static.toiimg.com/photo/71277352.cms",
     movie_name : "Bigil",
     movie_rating: "7.2",
@@ -53,6 +62,7 @@ export const INITIAL_MOVIE_LIST = [
     movie_trailer:"https://www.youtube.com/embed/GR-Ui8-V2M0",
   },
   {
+    id: "104",
     movie_poster: "https://pbs.twimg.com/media/EyfiAtmVEAkS3NN.jpg",
     movie_name : "Karnan",
     movie_rating: "8.1",
@@ -60,6 +70,7 @@ export const INITIAL_MOVIE_LIST = [
     movie_trailer:"https://www.youtube.com/embed/pgfUzQ8nzBY",
   },
   {
+    id: "105",
     movie_poster: "https://static.moviecrow.com/gallery/20210924/189727-FADCTbOVUAUfUV_.jfif",
     movie_name: "Doctor",
     movie_rating: "7.5",
@@ -67,6 +78,7 @@ export const INITIAL_MOVIE_LIST = [
     movie_trailer:"https://www.youtube.com/embed/oQiH_Iw0kDs",
   },
   {
+    id: "106",
     movie_poster: "https://images.fandango.com/ImageRenderer/820/0/redesign/static/img/default_poster.png/0/images/masterrepository/fandango/226579/Pushpa-1.jpg",
     movie_name: "Pushpa: The Rise",
     movie_rating: "7.6",
@@ -74,6 +86,7 @@ export const INITIAL_MOVIE_LIST = [
     movie_trailer:"https://www.youtube.com/embed/Q1NKMPhP8PY",
   },
   {
+    id: "107",
     movie_poster: "https://lumiere-a.akamaihd.net/v1/images/p_avengersendgame_19751_e14a0104.jpeg?region=0%2C0%2C540%2C810",
     movie_name: "Avengers: Endgame",
     movie_rating: "8.4",
@@ -88,54 +101,77 @@ function App() {
   const navigate = useNavigate();
 
   const [movieList, setMovieList] = useState(INITIAL_MOVIE_LIST);
+  
+  const [mode, setMode] = useState("light");
+
+  const theme = createTheme({
+    palette: {
+      mode: mode,
+    },
+  });
+
+  fetch("https://6251286d977373573f44d46e.mockapi.io/myapi/Movies")
+    .then(data => {return data.json})
+    .then(data => {console.log("movies", data)})
+
 
   return (
-    <div className="App">
 
-      {/* <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/movies">Movies</Link>
-          </li>
-          <li>
-            <Link to="/color-game">Color Game</Link>
-          </li>
-          <li>
-            <Link to="/add-movie">Add Movies</Link>
-          </li>
-          <li>
-            <Link to="/refsdfsasf">Random</Link>
-          </li>
-        </ul>
-      </nav> */}
+    <ThemeProvider theme={theme}>
+      <Paper elevation={4} style={{minHeight: "100vh", borderRadius: "0px"}}>
+        <div className="App">
 
-      <AppBar position="static">
-        <Toolbar>                   
-          <Button onClick={() => navigate(`/`)} color="inherit"><HomeIcon></HomeIcon>Home</Button>
-          <Button onClick={() => navigate(`/movies`)} color="inherit"><LocalMoviesIcon></LocalMoviesIcon>Movies</Button>
-          <Button onClick={() => navigate(`/add-movie`)} color="inherit"><AddIcon></AddIcon>Add Movies</Button>
-          <Button onClick={() => navigate(`/color-game`)} color="inherit"><ColorLensIcon></ColorLensIcon>Color Game</Button>
-        </Toolbar>
-      </AppBar>
+          {/* <nav>
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/movies">Movies</Link>
+              </li>
+              <li>
+                <Link to="/color-game">Color Game</Link>
+              </li>
+              <li>
+                <Link to="/add-movie">Add Movies</Link>
+              </li>
+              <li>
+                <Link to="/refsdfsasf">Random</Link>
+              </li>
+            </ul>
+          </nav> */}
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/movies" element={<MovieList movieList={movieList} setMovieList={setMovieList}/>} />
-        <Route path="/films" element={<Navigate replace to="/movies" />} />
-        {/* : makes the path matching dynamic */}
-        <Route path="/movies/:id" element={<MovieDetails movieList={movieList} />} />
-        <Route path="/color-game" element={<AddColor />} />
-        <Route path="/add-movie" element={<AddMovie movieList={movieList} setMovieList={setMovieList}/>} />
-        <Route path="/404" element={<NotFound />} />
-        <Route path="*" element={<Navigate replace to="/404" />} />
+          <AppBar position="static">
+            <Toolbar>                   
+              <Button onClick={() => navigate(`/`)} color="inherit"><HomeIcon></HomeIcon>Home</Button>
+              <Button onClick={() => navigate(`/movies`)} color="inherit"><LocalMoviesIcon></LocalMoviesIcon>Movies</Button>
+              <Button onClick={() => navigate(`/add-movie`)} color="inherit"><AddIcon></AddIcon>Add Movies</Button>
+              <Button onClick={() => navigate(`/color-game`)} color="inherit"><ColorLensIcon></ColorLensIcon>Color Game</Button>
+              <Button 
+                startIcon = {mode === "light" ? <Brightness4Icon /> : <Brightness7Icon />}
+                onClick={() => setMode(mode === "light" ? "dark" : "light")} color="inherit">
+                {mode === "light" ? "dark" : "light"} Mode
+              </Button>
+            </Toolbar>
+          </AppBar>
 
-      </Routes>   
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/movies" element={<MovieList movieList={movieList} setMovieList={setMovieList}/>} />
+            <Route path="/films" element={<Navigate replace to="/movies" />} />
+            {/* : makes the path matching dynamic */}
+            <Route path="/movies/:id" element={<MovieDetails movieList={movieList} />} />
+            <Route path="/color-game" element={<AddColor />} />
+            <Route path="/add-movie" element={<AddMovie movieList={movieList} setMovieList={setMovieList}/>} />
+            <Route path="/404" element={<NotFound />} />
+            <Route path="*" element={<Navigate replace to="/404" />} />
+
+          </Routes>   
+              
           
-      
-    </div>
+        </div>
+      </Paper>
+    </ThemeProvider>
     
   );
 }
