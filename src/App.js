@@ -111,8 +111,8 @@ function App() {
   });
 
   fetch("https://6251286d977373573f44d46e.mockapi.io/myapi/Movies")
-    .then(data => {return data.json})
-    .then(data => {console.log("movies", data)})
+    .then(data => data.json())
+    .then(mv => console.log("movies", mv));
 
 
   return (
