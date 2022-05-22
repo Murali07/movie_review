@@ -110,9 +110,7 @@ function App() {
     },
   });
 
-  fetch("https://6251286d977373573f44d46e.mockapi.io/myapi/Movies")
-    .then(data => data.json())
-    .then(mv => console.log("movies", mv));
+  
 
 
   return (
@@ -157,7 +155,7 @@ function App() {
 
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/movies" element={<MovieList movieList={movieList} setMovieList={setMovieList}/>} />
+            <Route path="/movies" element={<MovieList />} />
             <Route path="/films" element={<Navigate replace to="/movies" />} />
             {/* : makes the path matching dynamic */}
             <Route path="/movies/:id" element={<MovieDetails movieList={movieList} />} />

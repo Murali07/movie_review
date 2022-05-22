@@ -2,12 +2,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import Button from '@mui/material/Button';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { INITIAL_MOVIE_LIST } from './App';
+import { useEffect, useState } from "react";
 
 export function MovieDetails() {
 
   const { id } = useParams();
 
-  const movie = INITIAL_MOVIE_LIST[id];
+  // const movie = INITIAL_MOVIE_LIST[id];
 
   // console.log(movie);
   // return(
@@ -15,6 +16,17 @@ export function MovieDetails() {
   //     <h1>Details of {movie.movie_name}</h1>
   //   </div>
   // )
+
+  const [movie, setMovie] = useState({});
+
+  useEffect(() => {
+    fetch(`https://6251286d977373573f44d46e.mockapi.io/myapi/Movies/${id}`, {
+      method: "GET",
+    })
+      .then(data => data.json())
+      .then(mv => setMovie(mv));
+  }, [id]);
+
   const styles = {
     color: movie.movie_rating > 8 ? "green" : "red",
   };
