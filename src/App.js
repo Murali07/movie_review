@@ -160,7 +160,7 @@ function App() {
             {/* : makes the path matching dynamic */}
             <Route path="/movies/:id" element={<MovieDetails movieList={movieList} />} />
             <Route path="/color-game" element={<AddColor />} />
-            <Route path="/add-movie" element={<AddMovie movieList={movieList} setMovieList={setMovieList}/>} />
+            <Route path="/add-movie" element={<AddMovie />} />
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<Navigate replace to="/404" />} />
 
@@ -188,7 +188,7 @@ function NotFound(){
   )
 }
 
-export function Movie({ moviePoster, movieName, movieRating, movieSummary, id}){
+export function Movie({ moviePoster, movieName, movieRating, movieSummary, id, deleteButton}){
 
   const styles = {
     color: movieRating > 8 ? "green" : "red",
@@ -241,7 +241,7 @@ export function Movie({ moviePoster, movieName, movieRating, movieSummary, id}){
         {show ? <p className="movie-summary">{movieSummary}</p> : ""}
       </CardContent>
       <CardActions>
-        <Counter />
+        <Counter /> {deleteButton}
       </CardActions>
      
     </Card> 

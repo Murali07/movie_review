@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-export function AddMovie({ movieList, setMovieList }) {
+export function AddMovie() {
 
   const [movie_name, setName] = useState("");
   const [movie_poster, setPoster] = useState("");
@@ -21,7 +21,22 @@ export function AddMovie({ movieList, setMovieList }) {
 
     console.log(newMovie);
 
-    setMovieList([...movieList, newMovie]);
+    // setMovieList([...movieList, newMovie]);
+
+    // 1. Method - POST
+    // 2. Data (newMovie) - Body & JSON
+    // 3. Header - JSON
+
+    fetch(
+      `https://6251286d977373573f44d46e.mockapi.io/myapi/Movies/`,
+      {
+        method: "POST",
+        body: JSON.stringify(newMovie),
+        headers: {
+          "content-Type": "application/json",
+        }
+      })
+        .then((data) => data.json());
   };
 
   return (
