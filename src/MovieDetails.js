@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { INITIAL_MOVIE_LIST } from './App';
 import { useEffect, useState } from "react";
+import { API } from "./global";
 
 export function MovieDetails() {
 
@@ -20,7 +21,7 @@ export function MovieDetails() {
   const [movie, setMovie] = useState({});
 
   useEffect(() => {
-    fetch(`https://6251286d977373573f44d46e.mockapi.io/myapi/Movies/${id}`, {
+    fetch(`${API}/myapi/Movies/${id}`, {
       method: "GET",
     })
       .then(data => data.json())

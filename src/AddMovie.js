@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { API } from "./global";
 
 export function AddMovie() {
 
@@ -28,7 +29,7 @@ export function AddMovie() {
     // 3. Header - JSON
 
     fetch(
-      `https://6251286d977373573f44d46e.mockapi.io/myapi/Movies/`,
+      `${API}/myapi/Movies/`,
       {
         method: "POST",
         body: JSON.stringify(newMovie),
